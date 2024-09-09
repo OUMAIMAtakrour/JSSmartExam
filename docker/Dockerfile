@@ -20,4 +20,4 @@ RUN echo "Contents of /usr/src/app:" && \
     ls -la /usr/src/app/src
 
 # Keep the container running for debugging
-CMD ["tail", "-f", "/dev/null"]
+CMD ["node", "src/app.js"]
