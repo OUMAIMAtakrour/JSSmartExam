@@ -9,6 +9,7 @@ package-lock.json
 
 # Environment files
 .env
+/database
 
 # Docker-related
 docker-compose.override.yml
