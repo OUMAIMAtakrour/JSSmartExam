@@ -7,7 +7,7 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
-app.use("/auth", authRoutes);
+app.use("/auth", authRoutes); 
 app.get("/login", (req, res) => {
   res.render("pages/login"); 
 });
