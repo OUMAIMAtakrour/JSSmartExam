@@ -3,75 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subject Management</title>
-    <style>
-        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
-        h1, h2 { color: #333; }
-        form { margin-bottom: 20px; }
-        input[type="text"], select { width: 100%; padding: 8px; margin: 5px 0; }
-        input[type="submit"], button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
-        input[type="submit"]:hover, button:hover { background-color: #45a049; }
-        ul { list-style-type: none; padding: 0; }
-        li { background-color: #f9f9f9; margin: 5px 0; padding: 10px; border-radius: 5px; }
-        .delete-form { display: inline; }
-        .delete-button { background-color: #f44336; }
-        .delete-button:hover { background-color: #da190b; }
-        .sub-subject { margin-left: 20px; }
-        .update-form { display: inline-block; margin-right: 10px; }
-        .update-button { background-color: #008CBA; }
-        .update-button:hover { background-color: #007B9A; }
-    </style>
+    <link rel="stylesheet" href="/css/subject.css">
+    <title>Mentor Subject Dashboard</title>
+  
 </head>
 <body>
-    <h1>Subject Management</h1>
+    <div class="dashboard">
+        <h1>Mentor Subject Dashboard</h1>
 
-    <h2>Create New Subject</h2>
-    <form action="/subject" method="POST">
-        <input type="text" name="subject_name" placeholder="Subject Name" required>
-        <select name="parent_subject_id">
-            <option value="">Select Parent Subject (optional)</option>
-            <% subjects.forEach(function(subject) { %>
-                <option value="<%= subject.subject_id %>"><%= subject.subject_name %></option>
+        <button id="createSubjectBtn" class="btn btn-primary">Create New Subject</button>
+
+        <h2>All Subjects</h2>
+        <%
+        function renderSubjects(subjectList, parentId = null, level = 0) {
+            const filteredSubjects = subjectList.filter(s => s.parent_subject_id === parentId);
+            if (filteredSubjects.length === 0) return '';
+        %>
+            <ul class="sub-subject">
+            <% filteredSubjects.forEach(function(subject) { %>
+                <li>
+                    <strong><%= subject.subject_name %></strong>
+                    (ID: <%= subject.subject_id %>)
+                    
+                    <button onclick="openUpdateModal('<%= subject.subject_id %>', '<%= subject.subject_name %>', '<%= subject.parent_subject_id %>')" class="btn btn-update">Update</button>
+                    
+                    <form action="/subject/<%= subject.subject_id %>?_method=DELETE" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+
+                    <%= renderSubjects(subjects, subject.subject_id, level + 1) %>
+                </li>
             <% }); %>
-        </select>
-        <input type="submit" value="Create Subject">
-    </form>
+            </ul>
+        <%
+        }
+        %>
 
-    <h2>All Subjects</h2>
-    <%
-    function renderSubjects(subjectList, parentId = null, level = 0) {
-        const filteredSubjects = subjectList.filter(s => s.parent_subject_id === parentId);
-        if (filteredSubjects.length === 0) return '';
-    %>
-        <ul class="sub-subject">
-        <% filteredSubjects.forEach(function(subject) { %>
-            <li>
-                <strong><%= subject.subject_name %></strong>
-                (ID: <%= subject.subject_id %>)
-                
-                <form action="/subject/<%= subject.subject_id %>?_method=PUT" method="POST" class="update-form">
-                    <input type="text" name="subject_name" value="<%= subject.subject_name %>" required>
-                    <select name="parent_subject_id">
-                        <option value="">No Parent</option>
-                        <% subjects.filter(s => s.subject_id !== subject.subject_id).forEach(function(s) { %>
-                            <option value="<%= s.subject_id %>" <%= s.subject_id === subject.parent_subject_id ? 'selected' : '' %>><%= s.subject_name %></option>
-                        <% }); %>
-                    </select>
-                    <button type="submit" class="update-button">Update</button>
-                </form>
-                
-                <form action="/subject/<%= subject.subject_id %>?_method=DELETE" method="POST" class="delete-form">
-                    <button type="submit" class="delete-button">Delete</button>
-                </form>
+        <%= renderSubjects(subjects) %>
+    </div>
 
-                <%= renderSubjects(subjects, subject.subject_id, level + 1) %>
-            </li>
-        <% }); %>
-        </ul>
-    <%
-    }
-    %>
+    <div id="createSubjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Create New Subject</h2>
+            <form action="/subject" method="POST">
+                <input type="text" name="subject_name" placeholder="Subject Name" required>
+                <select name="parent_subject_id">
+                    <option value="">Select Parent Subject (optional)</option>
+                    <% subjects.forEach(function(subject) { %>
+                        <option value="<%= subject.subject_id %>"><%= subject.subject_name %></option>
+                    <% }); %>
+                </select>
+                <button type="submit" class="btn btn-primary">Create Subject</button>
+            </form>
+        </div>
+    </div>
 
-    <%= renderSubjects(subjects) %>
+    <div id="updateSubjectModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Subject</h2>
+            <form id="updateSubjectForm" method="POST">
+                <input type="hidden" name="_method" value="PUT">
+                <input type="text" id="update_subject_name" name="subject_name" required>
+                <select id="update_parent_subject_id" name="parent_subject_id">
+                    <option value="">No Parent</option>
+                    <% subjects.forEach(function(subject) { %>
+                        <option value="<%= subject.subject_id %>"><%= subject.subject_name %></option>
+                    <% }); %>
+                </select>
+                <button type="submit" class="btn btn-update">Update Subject</button>
+            </form>
+        </div>
+    </div>
+
+  <script src="/js/subject.js"></script>
+        
 </body>
 </html>
