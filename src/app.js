@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
 const subjectRoutes = require("./routes/subjectRoutes");
+const questionRoutes = require("./routes/questionRoutes");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -18,6 +19,7 @@ app.get("/login", (req, res) => {
   res.render("pages/login");
 });
 app.use("/subject", subjectRoutes);
+app.use("/question", questionRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
