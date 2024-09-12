@@ -4,6 +4,8 @@ const path = require("path");
 const methodOverride = require("method-override");
 const subjectRoutes = require("./routes/subjectRoutes");
 const questionRoutes = require("./routes/questionRoutes");
+const assignTestToStudentRoutes = require("./routes/assignTestToStudentRoutes");
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,6 +23,7 @@ app.get("/login", (req, res) => {
 
 app.use("/subject", subjectRoutes);
 app.use("/question", questionRoutes);
+app.use("/test", assignTestToStudentRoutes);
 
 router.get('/users/:id', UserController.show);
 
