@@ -1,0 +1,26 @@
+<!-- views/pages/showUser.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+</head>
+<body>
+    <h1>User Details</h1>
+    
+    <% if (user) { %>
+        <h2><%= user.name %></h2>
+        <p>Email: <%= user.email %></p>
+    <% } else { %>
+        <p>User not found.</p>
+    <% } %>
+
+    <h2>Logs</h2>
+    <ul>
+        <% logs.forEach(function(log) { %>
+            <li><%= log %></li>
+        <% }); %>
+    </ul>
+</body>
+</html>

@@ -18,12 +18,19 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/login", (req, res) => {
   res.render("pages/login");
 });
+<<<<<<< HEAD
 app.use("/subject", subjectRoutes);
 app.use("/question", questionRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+=======
+router.get('/users/:id', UserController.show);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+>>>>>>> omar
 });
 
 
