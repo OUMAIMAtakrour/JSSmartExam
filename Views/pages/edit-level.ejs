@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form action="/levels/edit/<%= level.level_id %>" method="POST">
+        <label for="levelName">Level Name:</label>
+        <input type="text" name="levelName" value="<%= level.level_name %>" required>
+    
+        <label for="Description">Description:</label>
+        <input type="text" name="Description" value="<%= level.description %>" required>
+    
+        <label for="minScore">Minimum score:</label>
+        <input type="number" name="minScore" value="<%= level.min_score %>" required>
+    
+        <label for="maxScore">Maximum score:</label>
+        <input type="number" name="maxScore" value="<%= level.max_score %>" required>
+    
+        <button type="submit">Update Level</button>
+    </form>
+    
+    
+</body>
+</html>

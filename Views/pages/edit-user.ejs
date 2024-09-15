@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit User</title>
+</head>
+<body>
+    <h1>Edit User</h1>
+    <form action="/users/edit/<%= user.user_id %>" method="POST" enctype="multipart/form-data">
+        <label for="firstName">First Name:</label>
+        <input type="text" name="firstName" value="<%= user.first_name %>" required>
+        <label for="lastName">Last Name:</label>
+        <input type="text" name="lastName" value="<%= user.last_name %>" required>
+        <label for="birthDate">Birth Date:</label>
+        <input type="date" name="birthDate" value="<%= user.birth_date %>" required>
+        <label for="userImage">User Image:</label>
+        <input type="file" name="userImage">
+        <label for="address">Address:</label>
+        <input type="text" name="address" value="<%= user.adress %>" required>
+        <label for="subscriptionDate">Subscription Date:</label>
+        <input type="date" name="subscriptionDate" value="<%= user.subscribssion_date %>" required>
+        <label for="password">Password:</label>
+        <input type="password" name="password" value="<%= user.password %>" required>
+        <label for="role">Role:</label>
+        <select name="role">
+            <option value="student" <%= user.roles === 'student' ? 'selected' : '' %>>Student</option>
+            <option value="mentor" <%= user.roles === 'mentor' ? 'selected' : '' %>>Mentor</option>
+        </select>
+        <button type="submit">Update User</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-straight/css/uicons-regular-straight.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-bold-straight/css/uicons-bold-straight.css'>
+    <link rel="stylesheet" href="/css/user.css">
+    <title><%= title %></title>
+</head>
+<body>
+    <div class="parent-nav">
+        <!-- Sidebar Navigation -->
+        <%- include('partials/sidebar') %>
+
+        <!-- Main Header -->
+        <%- include('partials/header') %>
+
+        <!-- Main Content Section -->
+        <div class="content-section">
+            <%- body %>
+        </div>
+        
+        
+    </div>
+</body>
+</html>
+
