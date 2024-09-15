@@ -50,7 +50,7 @@ app.use("/subject", subjectRoutes);
 app.use("/question", questionRoutes);
 app.use("/test", assignTestToStudentRoutes);
 
-router.get('/users/:id', UserController.show);
+// router.get('/users/:id', userController.getAllUsers);
 
 
 app.use("/subject", subjectRoutes);
