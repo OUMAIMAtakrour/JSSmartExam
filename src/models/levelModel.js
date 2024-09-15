@@ -14,7 +14,7 @@ const getLevelById = async (levelId) => {
     const values = [levelId];
     try {
         const result = await pool.query(query, values);
-        console.log(result.rows[0]);  // Log the result to verify
+        console.log(result.rows[0]); 
         return result.rows[0];
     } catch (err) {
         console.error('Error fetching level by ID:', err.message);
