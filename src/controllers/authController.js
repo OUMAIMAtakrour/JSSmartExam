@@ -1,47 +1,52 @@
-const jwt = require("jsonwebtoken");
-const pool = require("../config/database");
-const { SECRET_KEY, TOKEN_EXPIRATION } = require("../config/jwt");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const User = require('../models/authModel');
 
-const login = async (req, res) => {
+const JWT_SECRET = process.env.JWT_SECRET || 'your-jwt-secret';
+
+exports.showLoginForm = (req, res) => {
+  res.render('pages/login');
+};
+
+exports.login = async (req, res) => {
+  console.log('Request body:', req.body); 
   const { email, password } = req.body;
 
-  console.log('Email:', email);
-  console.log('Password:', password);
-
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required' });
-  }
-
   try {
-    const result = await pool.query('SELECT * FROM "users" WHERE email = $1', [
-      email,
-    ]);
-    const user = result.rows[0];
-
+    const user = await User.findByEmail(email); 
     if (!user) {
-      return res.status(401).json({ message: "User not found" });
+      console.log('User not found');
+      return res.status(400).render('pages/login', { error: 'User not found' });
     }
 
-    if (user.password === password) {
-      const token = jwt.sign(
-        {
-          userId: user.user_id,
-          role: user.roles,
-        },
-        SECRET_KEY,
-        { expiresIn: TOKEN_EXPIRATION }
-      );
+    // const isMatch = await bcrypt.compare(password, user.password);
+    // if (!isMatch) {
+    //   console.log('Invalid credentials');
+    //   return res.status(400).render('pages/login', { error: 'Invalid credentials' });
+    // }
 
-      return res.json({ token });
-    } else {
-      return res.status(401).json({ message: "Invalid credentials" });
-    }
-  } catch (err) {
-    console.error("Error during login:", err);
-    return res
-      .status(500)
-      .json({ message: "Server error", error: err.message });
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: '1h' });
+    req.session.token = token;
+
+    res.redirect('/subject');
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).render('pages/login', { error: 'Server error' });
   }
 };
 
-module.exports = { login };
+
+
+exports.dashboard = (req, res) => {
+  res.render('pages/dashboard', { user: req.user });
+};
+
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return res.status(500).send('Server error');
+    }
+    res.redirect('/login');
+  });
+};

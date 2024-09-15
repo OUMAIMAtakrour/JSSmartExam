@@ -6,7 +6,7 @@ const pool = require("../config/database");
 
 const { SECRET_KEY, TOKEN_EXPIRATION } = require("../config/jwt");
 
-const { login } = require('../middleware/auth'); 
+const { login } = require("../middleware/auth");
 
 router.get("/", (req, res) => {
   res.send("using api route");
@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
 //         SECRET_KEY,
 //         { expiresIn: TOKEN_EXPIRATION }
 //       );
-      
+
 //       res.json({ token });
 //     } else {
 //       res.status(401).json({ message: "Invalid credentials" });

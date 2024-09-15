@@ -7,13 +7,52 @@
     <title>Login</title>
 </head>
 <body>
-    <div class="login-container">
-        <h1>Login</h1>
-        <form action="auth/login" method="POST">
-            <input type="text" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Log In</button>
+    <div class="container">
+        <h2>Login</h2>
+        <!-- Ensure the form action matches your backend route -->
+        <form id="loginForm" action="/auth/login"" method="POST" >
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Login</button>
         </form>
+        <!-- Error message area -->
+        <div id="error-message" class="error" style="display: none; color: red;"></div>
     </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (event) => {
+            event.preventDefault();  // Prevent default form submission
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('error-message');
+            
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                });
+
+                if (response.ok) {
+                    window.location.href = '/subject';
+                } else {
+                    const errorData = await response.json();
+                    errorMessage.textContent = errorData.error || 'Login failed. Please try again.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An error occurred. Please try again later.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
