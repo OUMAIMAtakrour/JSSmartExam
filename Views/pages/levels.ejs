@@ -1,0 +1,50 @@
+
+    <div class="parent-nav">
+
+        <!-- Main Content Section -->
+        <div class="content-section">
+            <h1 class="main-headers">All Levels</h1>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Level Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (levels && levels.length > 0) { %>
+                        <% levels.forEach((level, index) => { %>
+                            <tr>
+                                <td><%= index + 1 %></td>
+                                <td><%= level.level_name %></td>
+                                <td><%= level.description %></td>
+                                <td>
+                                    <a href="/levels/edit/<%= level.level_id %>">Edit</a>
+                                    <form action="/levels/delete/<%= level.level_id %>" method="POST" style="display:inline;">
+                                        <button type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4">No levels found.</td>
+                        </tr>
+                    <% } %>
+                    
+                </tbody>
+            </table>
+
+            <h2>Create New Level</h2>
+            <form action="/levels/new" method="POST">
+                <input type="text" name="levelName" placeholder="Level Name" required />
+                <input type="text" name="description" placeholder="Description" required />
+                <input type="number" name="minScore" placeholder="Min Score" required />
+                <input type="number" name="maxScore" placeholder="Max Score" required />
+                <button type="submit">Create Level</button>
+            </form>
+        </div>
+    </div>
