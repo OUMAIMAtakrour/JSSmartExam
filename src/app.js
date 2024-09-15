@@ -6,7 +6,6 @@ const multer = require("multer");
 
 const app = express();
 
-// Import 
 const authRoutes = require("./routes/authRoutes");
 const subjectRoutes = require("./routes/subjectRoutes");
 const questionRoutes = require("./routes/questionRoutes");

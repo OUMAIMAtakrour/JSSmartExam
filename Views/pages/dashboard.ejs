@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- <link rel="stylesheet" href="/styles.css">  -->
+    <!-- Link to your CSS file -->
+</head>
+<body>
+    <header>
+        <h1>Student Dashboard</h1>
+    </header>
+    <main>
+        <h2>Available Tests</h2>
+        <% if (tests.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Test Score</th>
+                        <th>Mentor</th>
+                        <th>Questions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% tests.forEach(test => { %>
+                        <tr>
+                            <td><%= test.testScore %></td>
+                            <td><%= test.idMentor %></td>
+                            <td>
+                                <% test.questionIds.forEach(questionId => { %>
+                                    <%= questionId %> <br>
+                                <% }) %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p>No tests available at the moment.</p>
+        <% } %>
+    </main>
+  
+</body>
+</html>
